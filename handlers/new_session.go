@@ -89,6 +89,9 @@ func NewSession(rw http.ResponseWriter, req *http.Request) {
 		return
 		//TODO: Return some error code
 	} else {
+		if s.Stack != "" {
+			go core.SessionDeployStack(s)
+		}
 		hostname := req.Host
 		// If request is not a form, return sessionId in the body
 		if req.Header.Get("X-Requested-With") == "XMLHttpRequest" {
