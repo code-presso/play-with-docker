@@ -89,7 +89,7 @@ func NewSession(rw http.ResponseWriter, req *http.Request) {
 		return
 		//TODO: Return some error code
 	} else {
-		if s.Stack != "" {
+		if s != nil {
 			go core.SessionDeployStack(s)
 		}
 		hostname := req.Host
