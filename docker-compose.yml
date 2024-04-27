@@ -1,5 +1,9 @@
 version: '3.2'
 services:
+    nginx:
+        image: nginx
+        ports:
+            - "8081:80"
     haproxy:
         container_name: haproxy
         image: haproxy
