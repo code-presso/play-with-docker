@@ -195,14 +195,14 @@ func (p *pwd) SessionDeployStack(s *types.Session) error {
 	}
 
 	_, fileName := filepath.Split(s.Stack)
-	err = p.InstanceUploadFromUrl(i, fileName, "/var/run/pwd/uploads", s.Stack)
+	err = p.InstanceUploadFromUrl(i, fileName, "/root", s.Stack)
 	if err != nil {
 		log.Printf("Error uploading stack file [%s]: %s\n", s.Stack, err)
 		return err
 	}
 
 	fileName = path.Base(s.Stack)
-	file := fmt.Sprintf("/var/run/pwd/uploads/%s", fileName)
+	file := fmt.Sprintf("/root/%s", fileName)
 	cmd := fmt.Sprintf("docker swarm init --advertise-addr eth0 && docker-compose -f %s pull && docker stack deploy -c %s %s", file, file, s.StackName)
 
 	w := sessionBuilderWriter{sessionId: s.Id, event: p.event}
