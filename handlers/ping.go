@@ -22,6 +22,8 @@ func Ping(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	defer c.Close()
+
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
@@ -34,6 +36,7 @@ func Ping(rw http.ResponseWriter, req *http.Request) {
 	a, err := load.Avg()
 	if err != nil {
 		log.Println("Cannot get system load average!", err)
+		rw.WriteHeader(http.StatusInternalServerError)
 	} else {
 		if a.Load5 > config.MaxLoadAvg {
 			log.Printf("System load average is too high [%f]\n", a.Load5)
